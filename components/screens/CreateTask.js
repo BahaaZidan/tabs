@@ -24,7 +24,7 @@ const CreateTaskSchema = Yup.object().shape({
 export default function Login({ navigation }) {
   const onSubmit = async (values) => {
     await createTask(values);
-    navigation.navigate("Tasks");
+    navigation.navigate("Tasks", JSON.stringify(values));
   };
 
   return (

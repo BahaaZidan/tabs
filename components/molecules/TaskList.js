@@ -9,8 +9,9 @@ const data = new Array(10).fill({
   description: getToday(),
 });
 
-const TaskList = () => {
+const TaskList = ({ route }) => {
   const [tasks, setTasks] = useState([]);
+  const newlyCreatedTask = route?.params || {};
 
   const populateTasks = async () => {
     const tasks = await getTasks();
@@ -19,7 +20,7 @@ const TaskList = () => {
 
   useEffect(() => {
     populateTasks();
-  }, []);
+  }, [newlyCreatedTask]);
 
   const renderItem = ({ item }) => {
     return (
