@@ -3,8 +3,12 @@ import { Button, Layout } from "@ui-kitten/components";
 import TaskList from "../molecules/TaskList";
 
 export default function Home({ navigation }) {
-  const navigateToLogin = () => {
+  const navigateToCreateTask = () => {
     navigation.navigate("Create Task");
+  };
+
+  const navigateToArchive = () => {
+    navigation.navigate("Done Tasks");
   };
 
   return (
@@ -12,11 +16,22 @@ export default function Home({ navigation }) {
       <Layout
         style={{
           flex: 1,
-          // justifyContent: "center", alignItems: "center"
         }}
       >
         <TaskList />
-        <Button onPress={navigateToLogin}>CREATE TASK</Button>
+        <Button
+          onPress={navigateToCreateTask}
+          style={{ borderRadius: 0, marginBottom: 10 }}
+        >
+          CREATE TASK
+        </Button>
+        <Button
+          onPress={navigateToArchive}
+          appearance="outline"
+          style={{ borderRadius: 0 }}
+        >
+          DONE TASKS
+        </Button>
       </Layout>
     </SafeAreaView>
   );

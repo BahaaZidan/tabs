@@ -1,14 +1,29 @@
 import { useContext } from "react";
+import { SafeAreaView } from "react-native";
 import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
-import { markTaskAsDone } from "../../services/tasks";
+
 import { TasksContext } from "../../Providers/TasksProvider";
+import { undoTask } from "../../services/tasks";
+
+export default function Archive() {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Layout
+        style={{
+          flex: 1,
+        }}
+      >
+        <TaskList />
+      </Layout>
+    </SafeAreaView>
+  );
+}
 
 const TaskList = () => {
   const { tasks, setTasks } = useContext(TasksContext);
 
-  const handleDone = (id) => async () => {
-    const newTask = await markTaskAsDone(id);
+  const handleUndo = (id) => async () => {
+    const newTask = await undoTask(id);
     setTasks(tasks.filter((t) => t.id !== newTask.id).concat(newTask));
   };
 
@@ -31,8 +46,12 @@ const TaskList = () => {
               {new Date(item.date).toLocaleDateString()}
             </Text>
           </Layout>
-          <Button size="tiny" onPress={handleDone(item.id)}>
-            DONE
+          <Button
+            size="tiny"
+            onPress={handleUndo(item.id)}
+            appearance="outline"
+          >
+            UNDO
           </Button>
         </Layout>
       </ListItem>
@@ -41,17 +60,9 @@ const TaskList = () => {
 
   return (
     <List
-      style={styles.container}
-      data={tasks.filter((t) => t.done !== true)}
+      style={{}}
+      data={tasks.filter((t) => t.done === true)}
       renderItem={renderItem}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // maxHeight: 192,
-  },
-});
-
-export default TaskList;

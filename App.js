@@ -9,6 +9,7 @@ import Home from "./components/screens/Home";
 import CreateTask from "./components/screens/CreateTask";
 import { TasksProvider } from "./Providers/TasksProvider";
 import { getTasks } from "./services/tasks";
+import Archive from "./components/screens/DoneTasks";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
             <Stack.Navigator>
               <Stack.Screen name="Tasks" component={Home} />
               <Stack.Screen name="Create Task" component={CreateTask} />
+              <Stack.Screen name="Done Tasks" component={Archive} />
             </Stack.Navigator>
           </NavigationContainer>
         </TasksProvider>

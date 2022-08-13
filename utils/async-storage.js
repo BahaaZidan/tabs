@@ -48,3 +48,11 @@ export const mergeItem = async (key, value) => {
     console.error(e);
   }
 };
+
+export const deleteItem = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.error(e);
+  }
+};

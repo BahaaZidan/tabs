@@ -5,6 +5,7 @@ import {
   getAllKeys,
   getMultiple,
   mergeItem,
+  deleteItem,
 } from "../utils/async-storage";
 
 const TASK_ID_PREFIX = "task-";
@@ -33,4 +34,13 @@ export async function createTask(payload) {
 export async function markTaskAsDone(id) {
   const task = await mergeItem(id, { done: true });
   return task;
+}
+
+export async function undoTask(id) {
+  const task = await mergeItem(id, { done: false });
+  return task;
+}
+
+export async function deleteTask(id) {
+  await deleteItem(id);
 }
