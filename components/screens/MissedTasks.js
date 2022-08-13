@@ -4,6 +4,7 @@ import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 
 import { TasksContext } from "../../Providers/TasksProvider";
 import { undoTask } from "../../services/tasks";
+import { isBefore, startOfToday } from "date-fns";
 
 export default function MissedTasks() {
   return (
@@ -62,7 +63,8 @@ const TaskList = () => {
     <List
       style={{}}
       data={tasks
-        .filter((t) => t.done === true)
+        .filter((t) => t.done !== true)
+        .filter((t) => isBefore(new Date(t.date), startOfToday()))
         .sort((a, b) => new Date(a.date) - new Date(b.date))}
       renderItem={renderItem}
     />

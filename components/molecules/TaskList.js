@@ -3,7 +3,7 @@ import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { markTaskAsDone } from "../../services/tasks";
 import { TasksContext } from "../../Providers/TasksProvider";
-import { getToday } from "../../utils/date";
+import { isToday } from "date-fns";
 
 const TaskList = () => {
   const { tasks, setTasks } = useContext(TasksContext);
@@ -39,11 +39,7 @@ const TaskList = () => {
   return (
     <List
       style={styles.container}
-      data={tasks.filter(
-        (t) =>
-          t.done !== true &&
-          new Date(t.date).toLocaleDateString() === getToday()
-      )}
+      data={tasks.filter((t) => t.done !== true && isToday(new Date(t.date)))}
       renderItem={renderItem}
     />
   );

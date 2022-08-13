@@ -4,6 +4,7 @@ import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 
 import { TasksContext } from "../../Providers/TasksProvider";
 import { undoTask } from "../../services/tasks";
+import { endOfToday, isAfter } from "date-fns";
 
 export default function UpcomingTasks() {
   return (
@@ -62,7 +63,7 @@ const TaskList = () => {
     <List
       style={{}}
       data={tasks
-        .filter((t) => t.done === true)
+        .filter((t) => isAfter(new Date(t.date), endOfToday()))
         .sort((a, b) => new Date(a.date) - new Date(b.date))}
       renderItem={renderItem}
     />
