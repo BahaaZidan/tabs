@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
   const onSubmit = async (values) => {
     const newTask = await createTask(values);
     setTasks((oldTasks) => oldTasks.concat(newTask));
-    navigation.navigate("Tasks");
+    navigation.navigate("Today's Tasks");
   };
 
   return (

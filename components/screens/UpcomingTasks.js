@@ -5,7 +5,7 @@ import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 import { TasksContext } from "../../Providers/TasksProvider";
 import { undoTask } from "../../services/tasks";
 
-export default function Archive() {
+export default function UpcomingTasks() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Layout
