@@ -10,6 +10,8 @@ import {
   Text,
 } from "@ui-kitten/components";
 import { createTask } from "../../services/tasks";
+import { useContext } from "react";
+import { TasksContext } from "../../Providers/TasksProvider";
 
 const CreateTaskSchema = Yup.object().shape({
   name: Yup.string()
@@ -22,9 +24,12 @@ const CreateTaskSchema = Yup.object().shape({
 });
 
 export default function Login({ navigation }) {
+  const { setTasks } = useContext(TasksContext);
+
   const onSubmit = async (values) => {
-    await createTask(values);
-    navigation.navigate("Tasks", JSON.stringify(values));
+    const newTask = await createTask(values);
+    setTasks((oldTasks) => oldTasks.concat(newTask));
+    navigation.navigate("Tasks");
   };
 
   return (

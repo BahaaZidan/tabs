@@ -1,41 +1,47 @@
-import { useEffect, useState } from "react";
-import { Button, Icon, List, ListItem } from "@ui-kitten/components";
+import { useContext } from "react";
+import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
-import { getToday } from "../../utils/date";
-import { getTasks } from "../../services/tasks";
+import { getTasks, markTaskAsDone } from "../../services/tasks";
+import { TasksContext } from "../../Providers/TasksProvider";
 
-const data = new Array(10).fill({
-  title: "Title for Item",
-  description: getToday(),
-});
+const TaskList = () => {
+  const { tasks, setTasks } = useContext(TasksContext);
 
-const TaskList = ({ route }) => {
-  const [tasks, setTasks] = useState([]);
-  const newlyCreatedTask = route?.params || {};
-
-  const populateTasks = async () => {
-    const tasks = await getTasks();
-    setTasks(tasks);
+  const handleDone = (id) => async () => {
+    const newTask = await markTaskAsDone(id);
+    console.log({ id, newTask });
+    setTasks(tasks.filter((t) => t.id !== newTask.id).concat(newTask));
   };
-
-  useEffect(() => {
-    populateTasks();
-  }, [newlyCreatedTask]);
 
   const renderItem = ({ item }) => {
     return (
-      <ListItem
-        title={item.name}
-        key={item.id}
-        description={item.date}
-        accessoryLeft={(props) => (
-          <Icon
-            style={{ ...props.style, tintColor: "green" }}
-            name="checkmark-circle-2"
-          />
-        )}
-        accessoryRight={(props) => <Button size="tiny">DONE</Button>}
-      />
+      <ListItem key={item.id} disabled>
+        <Layout
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 4,
+          }}
+        >
+          <Layout style={{ backgroundColor: "transparent" }}>
+            <Text
+              category="s1"
+              style={{
+                textDecorationLine: item.done ? "line-through" : undefined,
+              }}
+            >
+              {item.name}
+            </Text>
+            <Text appearance="hint" category="c1">
+              {new Date(item.date).toLocaleDateString()}
+            </Text>
+          </Layout>
+          <Button size="tiny" onPress={handleDone(item.id)}>
+            DONE
+          </Button>
+        </Layout>
+      </ListItem>
     );
   };
 

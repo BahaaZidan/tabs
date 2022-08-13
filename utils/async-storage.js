@@ -38,3 +38,14 @@ export const getMultiple = async (keys) => {
     return [];
   }
 };
+
+export const mergeItem = async (key, value) => {
+  try {
+    await AsyncStorage.mergeItem(key, JSON.stringify(value));
+    const item = await getData(key);
+    console.log("await getData(key);", item);
+    return item;
+  } catch (e) {
+    console.error(e);
+  }
+};

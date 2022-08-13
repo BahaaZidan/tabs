@@ -1,6 +1,11 @@
 import cuid from "cuid";
 
-import { storeData, getAllKeys, getMultiple } from "../utils/async-storage";
+import {
+  storeData,
+  getAllKeys,
+  getMultiple,
+  mergeItem,
+} from "../utils/async-storage";
 
 const TASK_ID_PREFIX = "task-";
 
@@ -16,8 +21,16 @@ export async function createTask(payload) {
   const key = `${TASK_ID_PREFIX}${id}`;
   const task = {
     id: key,
+    done: false,
     ...payload,
   };
 
   await storeData(key, task);
+
+  return task;
+}
+
+export async function markTaskAsDone(id) {
+  const task = await mergeItem(id, { done: true });
+  return task;
 }
