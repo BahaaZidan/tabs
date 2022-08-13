@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native";
 import { Button, Layout, List, ListItem, Text } from "@ui-kitten/components";
 
 import { TasksContext } from "../../Providers/TasksProvider";
-import { undoTask } from "../../services/tasks";
+import { markTaskAsDone } from "../../services/tasks";
 import { endOfToday, isAfter } from "date-fns";
 
 export default function UpcomingTasks() {
@@ -23,8 +23,8 @@ export default function UpcomingTasks() {
 const TaskList = () => {
   const { tasks, setTasks } = useContext(TasksContext);
 
-  const handleUndo = (id) => async () => {
-    const newTask = await undoTask(id);
+  const handleDone = (id) => async () => {
+    const newTask = await markTaskAsDone(id);
     setTasks(tasks.filter((t) => t.id !== newTask.id).concat(newTask));
   };
 
@@ -47,12 +47,8 @@ const TaskList = () => {
               {new Date(item.date).toLocaleDateString()}
             </Text>
           </Layout>
-          <Button
-            size="tiny"
-            onPress={handleUndo(item.id)}
-            appearance="outline"
-          >
-            UNDO
+          <Button size="tiny" onPress={handleDone(item.id)}>
+            DONE
           </Button>
         </Layout>
       </ListItem>
