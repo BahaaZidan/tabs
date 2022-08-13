@@ -9,7 +9,6 @@ const TaskList = () => {
 
   const handleDone = (id) => async () => {
     const newTask = await markTaskAsDone(id);
-    console.log({ id, newTask });
     setTasks(tasks.filter((t) => t.id !== newTask.id).concat(newTask));
   };
 

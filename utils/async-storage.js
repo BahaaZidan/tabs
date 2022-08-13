@@ -12,7 +12,7 @@ export const storeData = async (key, value) => {
 export const getData = async (key) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    return !jsonValue ? JSON.parse(jsonValue) : null;
+    return JSON.parse(jsonValue);
   } catch (e) {
     console.error(e);
   }
@@ -43,7 +43,6 @@ export const mergeItem = async (key, value) => {
   try {
     await AsyncStorage.mergeItem(key, JSON.stringify(value));
     const item = await getData(key);
-    console.log("await getData(key);", item);
     return item;
   } catch (e) {
     console.error(e);
