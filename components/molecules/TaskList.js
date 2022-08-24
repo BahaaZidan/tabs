@@ -39,7 +39,9 @@ const TaskList = () => {
   return (
     <List
       style={styles.container}
-      data={tasks.filter((t) => t.done !== true && isToday(new Date(t.date)))}
+      data={tasks
+        .filter((t) => t.done !== true)
+        .filter((t) => isToday(new Date(t.date)) || t.persistent)}
       renderItem={renderItem}
     />
   );
